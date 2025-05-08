@@ -11,4 +11,6 @@ body {
     border: 2px solid black;
     background:white;
   }
-  
+  .test {
+    color: red;
+  }
