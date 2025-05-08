@@ -32,7 +32,7 @@ class Box {
 const player = new Box(100, canvas.height - 40, "blue");
 const gravity = 0.9;
 const jumpForce = -14;
-
+const stars = 50
 document.addEventListener("keydown", (e) => {
   if (e.code === "Space" && !player.jumping) {
     player.speedY = jumpForce;
