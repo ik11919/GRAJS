@@ -1,13 +1,24 @@
 <!DOCTYPE html>
-<html>
+<html lang="pl">
 <head>
-  <title>grajs</title>
+  <meta charset="UTF-8">
+  <title>Gra z przeszkodami</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <canvas id="canvas" width="800" height="400"></canvas>
-  <button id="restartBtn" style="display: none;">RESTART</button>
+  <div class="game-container">
+    <canvas id="canvas" width="800" height="400"></canvas>
+    <button id="startBtn">GRAJ</button>
+    <button id="restartBtn" style="display: none;">RESTART</button>
+  </div>
+
   <script src="gra.js"></script>
 </body>
 </html>
+startBtn.addEventListener("click", () => {
+  gameStarted = true;
+  startBtn.style.display = "none"; // Ukryj przycisk graj po kliknięciu
+});
+
+
 

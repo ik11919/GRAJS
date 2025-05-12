@@ -1,20 +1,41 @@
 body {
-    margin: 0;
-    background-color: #f0f0f0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  
-  #canvas {
-    border: 2px solid black;
-    background:white;
-  }
-  .test {
-    color: red;
-  }
+  margin: 0;
+  background-color: #f0f0f0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  flex-direction: column;
+}
 
-  .class-dev {
-    color: blue;
-  }
+.game-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#canvas {
+  border: 2px solid black;
+  background: white;
+}
+
+#restartBtn {
+  margin-top: 20px;
+  padding: 10px 30px;
+  font-size: 20px;
+  background-color: green;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: none; 
+  transition: background-color 0.3s;
+}
+
+#restartBtn:hover {
+  background-color: #2980b9;
+}
+#play {
+  position: absolute;
+  top: 50%
+}

@@ -1,7 +1,11 @@
+let gameStarted = false;
+let score = 0;
+let highscore = 0;
 const obstacles = [];
 let spawnTimer = 0;
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const startBtn = document.getElementById("startBtn");
 
 class Box {
   constructor(x, y, color) {
@@ -39,6 +43,7 @@ class Obstacle {
     this.h = h;
     this.speed = speed;
     this.color = "red";
+    this.passed = false; // DODANE od razu przy tworzeniu
   }
 
   update() {
@@ -62,39 +67,74 @@ class Obstacle {
 
 const player = new Box(100, canvas.height - 40, "blue");
 const gravity = 0.9;
-const jumpForce = -14;
+const jumpForce = -20;
+let gameOver = false;
+
+const restartBtn = document.getElementById("restartBtn");
 
 document.addEventListener("keydown", (e) => {
-  if (e.code === "Space" && !player.jumping) {
+  if (e.code === "Space" && !player.jumping && !gameOver) {
     player.speedY = jumpForce;
     player.jumping = true;
   }
 });
 
+restartBtn.addEventListener("click", () => {
+  obstacles.length = 0;
+  spawnTimer = 0;
+  player.x = 100;
+  player.y = canvas.height - 40;
+  player.speedY = 0;
+  player.jumping = false;
+  gameOver = false;
+  score = 0;
+  restartBtn.style.display = "none";
+});
+
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  player.update(gravity);
+  ctx.fillStyle = "black";
+  ctx.font = "24px Arial";
+  ctx.textAlign = "left";
+  ctx.fillText("Wynik: " + score, 10, 30);
+
   player.draw(ctx);
 
-  spawnTimer++;
-  if (spawnTimer > 120) {
-    const obstacle = new Obstacle(canvas.width, canvas.height - 40, 40, 40, 4);
-    obstacles.push(obstacle);
-    spawnTimer = 0;
-  }
+  if (!gameOver) {
+    player.update(gravity);
 
-  obstacles.forEach((obs) => {
-    obs.update();
-    obs.draw(ctx);
-
-    if (obs.collidesWith(player)) {
-      alert("GAME OVER");
-      window.location.reload();
+    spawnTimer++;
+    if (spawnTimer > 120) {
+      const obstacle = new Obstacle(canvas.width, canvas.height - 40, 40, 40, 4);
+      obstacles.push(obstacle);
+      spawnTimer = 0;
     }
-  });
+
+    obstacles.forEach((obs) => {
+      obs.update();
+      obs.draw(ctx);
+
+      if (!obs.passed && obs.x + obs.w < player.x) {
+        obs.passed = true;
+        score++;
+      }
+
+      if (obs.collidesWith(player)) {
+        gameOver = true;
+        restartBtn.style.display = "block";
+      }
+    });
+  } else {
+    ctx.fillStyle = "black";
+    ctx.font = "48px Arial";
+    ctx.textAlign = "center";
+    ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+  }
 
   requestAnimationFrame(loop);
 }
-
+  startBtn.addEventListener("click", () => {
+    gameStarted
+  })
 loop();
