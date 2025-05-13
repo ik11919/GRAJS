@@ -9,7 +9,7 @@ export class Player {
     this.jumping = false;
 
     this.image = new Image();
-    this.image.src = "./zdjecia/kaczka.png"; 
+    this.image.src = "./zdjecia/kaczka.png";
   }
 
   update(gravity, canvas, floorHeight) {
@@ -31,3 +31,4 @@ export class Player {
     ctx.drawImage(this.image, this.x, this.y, this.w, this.h);
   }
 }
+

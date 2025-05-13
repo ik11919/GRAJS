@@ -4,7 +4,7 @@ import { Obstacle } from './obstacle.js';
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-const floorHeight = 16;
+const floorHeight = 13;
 
 const obstacles = [];
 let spawnTimer = 0;
@@ -114,26 +114,43 @@ function loop() {
     }
   });
 
-  ctx.fillStyle = "black";
-  ctx.font = "24px Arial";
+  ctx.fillStyle = "white";
+  ctx.strokeStyle = "black";
+  ctx.lineWidth = 4;
+  ctx.font = "bold 24px Arial";
   ctx.textAlign = "left";
-  ctx.fillText("Wynik: " + score, 10, 30);
-  ctx.fillText("Rekord: " + highscore, 10, 60);
+
+  ctx.fillRect(8, 8, 160, 35);
+  ctx.strokeRect(8, 8, 160, 35);
+  ctx.fillStyle = "black";
+  ctx.fillText("Wynik: " + score, 20, 34);
+
+  ctx.fillStyle = "white";
+  ctx.fillRect(8, 50, 160, 35);
+  ctx.strokeRect(8, 50, 160, 35);
+  ctx.fillStyle = "black";
+  ctx.fillText("Rekord: " + highscore, 20, 76);
 
   if (!gameStarted) {
     ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "white";
-    ctx.font = "48px Arial";
+    ctx.font = "bold 48px Arial";
     ctx.textAlign = "center";
+    ctx.shadowColor = "black";
+    ctx.shadowBlur = 10;
     ctx.fillText("Naciśnij GRAJ, aby zacząć", canvas.width / 2, canvas.height / 2);
+    ctx.shadowBlur = 0;
   } else if (gameOver) {
     ctx.fillStyle = "rgba(0,0,0,0.5)";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "red";
-    ctx.font = "48px Arial";
+    ctx.font = "bold 64px Arial";
     ctx.textAlign = "center";
+    ctx.shadowColor = "black";
+    ctx.shadowBlur = 20;
     ctx.fillText("GAME OVER", canvas.width / 2, canvas.height / 2);
+    ctx.shadowBlur = 0;
   }
 
   if (gameStarted && !gameOver) {
