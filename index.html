@@ -2,7 +2,7 @@
 <html lang="pl">
 <head>
   <meta charset="UTF-8">
-  <title>Gra z przeszkodami</title>
+  <title>Moja Gra</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -12,13 +12,11 @@
     <button id="restartBtn" style="display: none;">RESTART</button>
   </div>
 
-  <script src="gra.js"></script>
+  <script type="module" src="game.js"></script>
 </body>
 </html>
-startBtn.addEventListener("click", () => {
-  gameStarted = true;
-  startBtn.style.display = "none"; // Ukryj przycisk graj po kliknięciu
-});
+
+
 
 
 
