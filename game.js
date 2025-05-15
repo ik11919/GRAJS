@@ -1,6 +1,8 @@
 import { Player } from './player.js';
 import { Obstacle } from './obstacle.js';
 
+const jumpSound = new Audio("./sounds/duck.mp3");
+const hitSound = new Audio("./sounds/gameover.mp3");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
@@ -60,6 +62,7 @@ document.addEventListener("keydown", (e) => {
     if (e.code === "Space" && !player.jumping) {
       player.speedY = jumpForce;
       player.jumping = true;
+      jumpSound.play();
     }
     if (e.code === "KeyA") {
       player.speedX = -5;
@@ -107,6 +110,7 @@ function loop() {
 
     if (obs.collidesWith(player)) {
       gameOver = true;
+      hitSound.play();
       restartBtn.style.display = "block";
       if (score > highscore) {
         highscore = score;
