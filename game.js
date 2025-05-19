@@ -4,9 +4,16 @@ import { Obstacle } from './obstacle.js';
 import { Platform } from './platform.js';
 import { PowerUp } from './powerup.js';
 
-const jumpSound = new Audio("./sounds/duck.mp3");
+
+function playJumpSound() {
+  const sound = new Audio("./sounds/duck.mp3");
+  sound.play();
+}
+
 const hitSound = new Audio("./sounds/gameover.mp3");
-const powerUpSound = new Audio("./sounds/powerup.mp3")
+hitSound.loop = false;
+
+const powerUpSound = new Audio("./sounds/powerup.mp3");
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -29,9 +36,11 @@ let platformTimer = 0;
 let platformInterval = 300;
 let score = 0;
 let highscore = 0;
+
 if (localStorage.getItem("highscore")) {
   highscore = parseInt(localStorage.getItem("highscore"));
 }
+
 let gameOver = false;
 let gameStarted = false;
 
@@ -65,7 +74,7 @@ startBtn.addEventListener("click", () => {
   gameStarted = true;
   startBtn.style.display = "none";
 });
-  
+
 restartBtn.addEventListener("click", () => {
   obstacles.length = 0;
   platforms.length = 0;
@@ -95,10 +104,10 @@ document.addEventListener("keydown", (e) => {
       if (!player.jumping) {
         player.speedY = jumpForce;
         player.jumping = true;
-        jumpSound.play();
+        playJumpSound();
       } else if (doubleJumpAvailable) {
         player.speedY = jumpForce;
-        jumpSound.play();
+        playJumpSound();
       }
     }
     if (e.code === "KeyA") {
@@ -132,11 +141,9 @@ function getRandomSpawnInterval() {
   return Math.floor(Math.random() * 60) + 60;
 }
 
-
 function getRandomPowerUpInterval() {
   return Math.floor(Math.random() * 600) + 600;
 }
-
 
 function loop() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,16 +152,12 @@ function loop() {
   player.draw(ctx);
 
   platforms.forEach((plat) => {
-    if (!gameOver) {
-      plat.update();
-    }
+    if (!gameOver) plat.update();
     plat.draw(ctx);
   });
 
   powerUps.forEach((pwr, index) => {
-    if (!gameOver) {
-      pwr.update();
-    }
+    if (!gameOver) pwr.update();
     pwr.draw(ctx);
 
     if (pwr.collidesWith(player)) {
@@ -178,9 +181,7 @@ function loop() {
   });
 
   obstacles.forEach((obs) => {
-    if (!gameOver) {
-      obs.update();
-    }
+    if (!gameOver) obs.update();
     obs.draw(ctx);
 
     if (!obs.passed && obs.x + obs.w < player.x) {
@@ -189,11 +190,13 @@ function loop() {
     }
 
     if (obs.collidesWith(player) && !invincible) {
-      gameOver = true;
-      hitSound.play();
-      restartBtn.style.display = "block";
-      if (score > highscore) {
-        highscore = score;
+      if (!gameOver) {
+        gameOver = true;
+        hitSound.play(); 
+        restartBtn.style.display = "block";
+        if (score > highscore) {
+          highscore = score;
+        }
       }
     }
   });
